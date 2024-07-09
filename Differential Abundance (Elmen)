@@ -1,0 +1,48 @@
+#load packages
+library(tidyverse)
+library(Seurat)
+library(tidyr)
+library(tibble)
+library(ggplot2)
+library(sccomp)
+library(plyr) 
+
+#read file
+gut <- qread("~/fetal_gut_atlas_annotated.qs")
+Idents(gut) <- gut$celltype_main
+
+#update disease status names
+gut$Diagnosis_short <- gsub("healthy", "Healthy", gut$Diagnosis_short)
+gut$Diagnosis_short <- gsub("Healthy", "Non-IBD", gut$Diagnosis_short)
+gut$Diagnosis_short <- gsub("Crohn Disease", "CD", gut$Diagnosis_short)
+gut$Diagnosis <- gsub("Pediatric healthy", "Non-IBD", gut$Diagnosis)
+gut$Diagnosis <- gsub("Pediatric Crohn Disease", "CD", gut$Diagnosis)
+
+#clean metadata to remove N/A labels
+gut_meta <- gut@meta.data
+colnames(gut_meta)
+gut@meta.data <- gut_meta_clean
+gut_meta_clean <- gut_meta[complete.cases(gut_meta[c("sample.name", "celltype_main", "nCount_RNA", "Diagnosis_short")]), ]
+gut@meta.data <- gut_meta_clean
+gut_df <- as_tibble(gut@meta.data)
+
+#run differential abundance of cell types by disease status (Non-IBD, CD) 
+sc_result1 <- gut_df |> 
+  sccomp_glm(
+    formula_composition = ~ Diagnosis_short, 
+    .sample = Sample.name, 
+    .cell_group = celltype_main, 
+    bimodal_mean_variability_association = 1, 
+    cores = 10)
+
+Ct_gut_difab <- plots1$boxplot[[1]]
+Ct_gut_difab <- Ct_gut_difab+
+  theme_classic()+
+  labs(title = NULL, shape = "Outlier", fill ='Signif')+
+  theme(legend.key.size = unit(2, 'mm'),
+        axis.text.y =element_text(size=4))
+
+pdf(paste(0)(PseudobulkExpression(gut),"plots1_gut/sccomp DA boxplot.pdf"),
+    width = 7, height = 4.5)
+Ct_gut_difab
+dev.off()
