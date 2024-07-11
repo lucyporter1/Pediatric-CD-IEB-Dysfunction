@@ -1,1 +1,11 @@
-
+ [1] "Germinal centre cells"       "Plasma cells"               
+ [3] "T-follicular helper cells"   "Naive B cells"              
+ [5] "Cycling B cells"             "T-helper cells"             
+ [7] "Follicular dendritic cells"  "T-cytotoxic cells"          
+ [9] "Myofibroblasts"              "T-memory cells"             
+[11] "Stromal cells"               "Monocytes"                  
+[13] "T-reticular cells"           "Mast cells"                 
+[15] "Endothelial cells"           "Transit-amplifying cells"   
+[17] "Pericytes"                   "Glil cells"                 
+[19] "Goblet cells"                "Lymphatic endothelial cells"
+[21] "Enterocytes" 
