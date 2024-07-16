@@ -35,6 +35,9 @@ sc_result1 <- gut_df |>
     bimodal_mean_variability_association = 1, 
     cores = 10)
 
+plots1 <- plot_summary(sc_result1)
+plots1
+
 Ct_gut_difab <- plots1$boxplot[[1]]
 Ct_gut_difab <- Ct_gut_difab+
   theme_classic()+
