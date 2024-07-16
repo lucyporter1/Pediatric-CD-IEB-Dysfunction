@@ -278,6 +278,8 @@ focal_ad_genes <- c("ITGA9", "PELO", "MYLK", "RAPGEF1", "ACTN1", "BRAF", "RAP1A"
     "TNN", "DOCK1", "ITGAD", "MAPK6", "TNK2", "COL5A3", "PDGFC", "GSK3B", 
     "PAK4", "PDGFD", "PIK3CB", "PIK3R4", "TNXB", "TNK1", "COL4A6")
 
+#Update grouping of expression by diagnosis: 
+Idents(gut) <- gut$Diagnosis_short
 
 #Rank data:
 libary(fgsea)
