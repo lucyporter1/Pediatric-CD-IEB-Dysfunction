@@ -1,0 +1,45 @@
+#Remove low-quality cells: 
+VlnPlot(kong, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+plot1 <- FeatureScatter(kong, feature1 = "nCount_RNA", feature2 = "percent.mt")
+plot2 <- FeatureScatter(kong, feature1 = "nCount_RNA", feature2 = "nFeature_RNA")
+plot1 + plot2 
+kong <- subset(kong, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)
+
+#Normalize data: 
+kong <- NormalizeData(kong, normalization.method = "LogNormalize", scale.factor = 10000)
+
+#Select for highly variable features: 
+kong <- FindVariableFeatures(kong, selection.method = "vst", nfeatures = 2000)
+top10 <- head(VariableFeatures(kong), 10) 
+
+#Plot variable features:
+plot3 <- VariableFeaturePlot(kong)
+plot4 <- LabelPoints(plot = plot3, points = top10, repel = TRUE)
+plot3 + plot4
+
+#Scale data:
+all.genes <- rownames(kong) 
+kong <- ScaleData(kong, features= all.genes) 
+
+#Linear reduction and dimensionality: 
+kong <- RunPCA(kong, features = VariableFeatures(object = kong))
+VizDimLoadings(kong, dims = 1:2, reduction = "pca")
+ElbowPlot(kong) 
+
+#Cluster cells: 
+kong <- FindNeighbors(kong, dims = 1:10)
+kong <- FindClusters(kong, resolution = 0.5)
+head(Idents(kong), 5)
+
+#Run UMAP: 
+kong <- RunUMAP (kong, dims = 1:10, label = TRUE)
+DimPlot(kong, reduction = "umap", group.by = "Celltype")
+
+#Epithelial Only UMAP: 
+epithelial_kong <- subset(gut, celltype_main %in% c("LGR5+ crypt-base stem cells", "Tuft cells", "Paneth cells", "Enteroendocrine cells", "Transit-amplifying cells", "Enterocytes", "Goblet cells")
+epithelial_kong <- NormalizeData(epithelial_kong)
+epithelial_kong <- FindVariableFeatures(epithelial_kong, selection.method = "vst", nfeatures = 2000)
+epithelial_kong <- ScaleData(epithelial_kong, features = all.genes)
+epithelial_kong <- RunPCA(epithelial_kong, features = VariableFeatures(object = epithelial_kong))
+epithelial_kong <- RunUMAP(epithelial_kong, dims = 1:10)
+DimPlot(epithelial_kong, reduction = "umap", group.by = "Celltype")
