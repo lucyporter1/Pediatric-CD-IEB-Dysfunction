@@ -46,3 +46,16 @@ pdf(paste(0)(PseudobulkExpression(gut),"plots1_gut/sccomp DA boxplot.pdf"),
     width = 7, height = 4.5)
 Ct_gut_difab
 dev.off()
+
+#Epithelial Only:
+ filtered_df <- gut_df %>%
+  filter(celltype_main %in% epithelial_gut)
+filtered_df <- gut_df %>%
+  filter(celltype_main %in% epithelial_gut)
+sc_result1 <- filtered_df |> 
+  sccomp_glm(
+    formula_composition = ~ Diagnosis_short, 
+    .sample = Sample.name, 
+    .cell_group = celltype_main, 
+    bimodal_mean_variability_association = 1, 
+    cores = 10)
