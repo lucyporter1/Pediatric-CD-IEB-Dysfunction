@@ -37,3 +37,17 @@ pdf(paste(0)(PseudobulkExpression(kong),"plots_kong/sccomp DA boxplot.pdf"),
     width = 7, height = 4.5)
 Ct_kong_difab
 dev.off()
+
+epithelial_kong <- c("LGR5+ crypt-base stem cells", "Tuft cells", "Paneth cells", "Enteroendocrine cells", "Transit-amplifying cells", "Enterocytes", "Goblet cells")
+kong_df <- as_tibble(kong@meta.data)
+
+filtered_kong_df <- kong_df %>%
+  filter(Celltype %in% epithelial_kong)
+
+sc_result_kong_epi <- filtered_kong_df |> 
+  sccomp_glm(
+    formula_composition = ~ disease__ontology_label, 
+    .sample = biosample_id, 
+    .cell_group = Celltype, 
+    bimodal_mean_variability_association = 1, 
+    cores = 10)
