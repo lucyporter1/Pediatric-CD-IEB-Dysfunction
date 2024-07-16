@@ -1,0 +1,45 @@
+#Remove low-quality cells: 
+VlnPlot(gut, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+plot1 <- FeatureScatter(gut, feature1 = "nCount_RNA", feature2 = "percent.mt")
+plot2 <- FeatureScatter(gut, feature1 = "nCount_RNA", feature2 = "nFeature_RNA")
+plot1 + plot2 
+gut <- subset(gut, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)
+
+#Normalize data: 
+gut <- NormalizeData(gut, normalization.method = "LogNormalize", scale.factor = 10000)
+
+#Select for highly variable features: 
+gut <- FindVariableFeatures(gut, selection.method = "vst", nfeatures = 2000)
+top10 <- head(VariableFeatures(gut), 10) 
+
+#Plot variable features:
+plot3 <- VariableFeaturePlot(gut)
+plot4 <- LabelPoints(plot = plot3, points = top10, repel = TRUE)
+plot3 + plot4
+
+#Scale data:
+all.genes <- rownames(gut) 
+gut <- ScaleData(gut, features= all.genes) 
+
+#Linear reduction and dimensionality: 
+gut <- RunPCA(gut, features = VariableFeatures(object = gut))
+VizDimLoadings(gut, dims = 1:2, reduction = "pca")
+ElbowPlot(gut) 
+
+#Cluster cells: 
+gut <- FindNeighbors(gut, dims = 1:10)
+gut <- FindClusters(gut, resolution = 0.5)
+head(Idents(gut), 5)
+
+#Run UMAP: 
+gut <- RunUMAP (gut, dims = 1:10, label = TRUE)
+DimPlot(gut, reduction = "umap", group.by = "celltype_main")
+
+#Run Epithelal UMAP: 
+epithelial_gut <- subset(gut, celltype_main %in% c("Goblet cells", "Enterocytes", "Transit-amplifying cells"))
+epithelial_gut <- NormalizeData(epithelial_gut)
+epithelial_gut <- FindVariableFeatures(epithelial_gut, selection.method = "vst", nfeatures = 2000)
+epithelial_gut <- ScaleData(epithelial_gut, features = all.genes)
+epithelial_gut <- RunPCA(epithelial_gut, features = VariableFeatures(object = epithelial_gut))
+epithelial_gut <- RunUMAP(epithelial_gut, dims = 1:10)
+DimPlot(epithelial_gut, reduction = "umap", group.by = "celltype_main")
