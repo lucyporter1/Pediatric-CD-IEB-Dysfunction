@@ -24,6 +24,16 @@ goblet <- c("AGR2" "SPINK4", "TFF3", "BEST4")
 #Receptors
 receptor <- c("FFAR4", "TLR4", "TLR5", "TNFRSF1A", "TNFRSF1B", "IL1B", "IFNYR") 
 
+#Tight Junctions: 
+TJ <- c("F11R", "JAM3", "TJP1", "TJP2", "TJP3", "OCLN")
+
+#Adherens Junctions: 
+AJ <- c("CDH1", "CTNNA1", "CTNNB1", "CTNND1")
+
+#Desmosome: 
+desmo <- c("DSC2", "DSG2", "DSG3")
+
+
 #Plot genes by disease status: 
 dp_junc_genes <- DotPlot(gut, features = c(cldn, desmosome, AJ, TJ), group.by = "celltype_main", scale.by = "size")+
   theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
@@ -31,8 +41,9 @@ dp_junc_genes <- DotPlot(gut, features = c(cldn, desmosome, AJ, TJ), group.by = 
   guides(size = guide_legend(title = "%\nExpressed"))+
   guides(color = guide_colorbar(title = "Expression"))+
   scale_colour_gradient(low = "#ADD8E6", high = "#7F00FF")+
-  labs(y = "Cell Type")+
+  labs(y = "Disease Status)+
   coord_flip(xlim = NULL, ylim = NULL, expand = TRUE)
+dp_junc_genes
 
 dp_goblet <- DotPlot(gut, features = goblet, group.by = "Diagnosis") +
   theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
@@ -40,10 +51,20 @@ dp_goblet <- DotPlot(gut, features = goblet, group.by = "Diagnosis") +
   guides(size = guide_legend(title = "%\nExpressed"))+
   guides(color = guide_colorbar(title = "Expression"))+
   scale_colour_gradient(low = "#ADD8E6", high = "#7F00FF")+
-  labs(y = "Disease State")
+  labs(y = "Disease Status)+
+  coord_flip(xlim = NULL, ylim = NULL, expand = TRUE)
 dp_goblet
 
-dp_sec <- dp_sec <-DotPlot(gut, features = sec, group.by = "Diagnosis") +
+dp_sec <- DotPlot(gut, features = sec, group.by = "Diagnosis") +
+  theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
+        legend.key.size = unit(4, 'mm'))+
+guides(size = guide_legend(title = "%\nExpressed"))+
+guides(color = guide_colorbar(title = "Expression"))+
+scale_colour_gradient(low = "#ADD8E6", high = "#7F00FF")+
+labs(y = "Disease State")
+dp_sec
+
+dp_abs <-DotPlot(gut, features = abs, group.by = "Diagnosis") +
   theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
         legend.key.size = unit(4, 'mm'))+
 guides(size = guide_legend(title = "%\nExpressed"))+
