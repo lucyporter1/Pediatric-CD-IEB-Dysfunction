@@ -317,14 +317,16 @@ Focal_Adhesioon = focal_ad_genes)
 ranks <- setNames(ranked_genes$score, ranked_genes$gene)
 
 #RUN gsea: 
-fgsea_res <- fgsea(pathways = gene_set_list_cycling_ta, stats = ranks, minSize = 15, maxSize = 500, nperm = 1000)
+fgsea_res <- fgseaMultilevel(pathways = gene_set_list_all, stats = ranks, minSize = 10, maxSize = 500)
 
 fgsea_res %>% 
     arrange(desc(abs(NES))) %>% 
     top_n(10, -padj)
 
+num_pathways <- length(gene_set_list_all)
+
 plotEnrichment(gene_set_list_all[[1]], ranks) +
-  labs(title = fgsea_res$pathway[1])
+  labs(title = fgsea_res$pathway[2])
 
 topPathways <- fgsea_res %>% 
     top_n(20, wt=-padj) %>% 
