@@ -293,7 +293,7 @@ rownames_to_column("gene")%>%
 rename(score = av_log2FC)
 
 ranked_genes <- gsea_markers_gut%>%
-arragne(desc(score))%>%
+arrange(desc(score))%>%
 select(gene, score) 
 
 gene_set_list_all <- list(
@@ -333,6 +333,13 @@ topPathways <- fgsea_res %>%
 
 #OR
 plotGseaTable(fgsea_results, gene_set_list_cycling_ta, ranks, gseaParam = 1, colwidths = c(5, 7, 0.8))
+
+#Run GSEA for epithelial cells only: 
+epithelial_gut <- subset(gut, celltype_main %in% c("Transit-amplifying cells", "Enterocytes", "Goblet cells")
+epithelial_gut <- NormalizeData(epithelial_gut)
+
+#Find differentially expressed genes by condition:
+gsea_markers_epithelial_gut <- FindMarkers(epithelial_gut, ident.1 = "CD" ident.2 = "Non-IBD")
 
 
 
