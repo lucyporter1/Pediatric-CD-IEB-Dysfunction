@@ -1,0 +1,63 @@
+#Check diagnosis is correctly labelled: 
+gut$Diagnosis <- gsub("Pediatric healthy", "Non-IBD", gut$Diagnosis)
+gut$Diagnosis <- gsub("Pediatric Crohn Disease", "CD", gut$Diagnosis)
+
+#Make Gene lists: 
+#Mucins:
+muc <- c("MUC1", "MUC2", "MUC3A", "MUC4", "MUC5AC", "MUC5B","MUC13", "MUC17")
+
+#Claudins: 
+cldn <- c("CLDN2","CLDN3","CLDN4","CLDN5","CLDN7","CLDN8", "CLDN15","CLDN23")
+
+#CBC/LBR5+ Stem cells: 
+isc <- c("LGR5", "OLFM4", "ASCL2", "EPHB2")
+
+#Revival Stem cells: 
+rsc <- c("ASCL2", ANXA1", "ANXA2", "BMI1", "CLU")
+
+#Secretory-fated cells:
+sec <- c("ATOH1", "FOXA1", "FOXA2","KLF4", "SOX9", "SPDEF")
+
+#Goblet cells:
+goblet <- c("AGR2" "SPINK4", "TFF3", "BEST4")
+
+#Receptors
+receptor <- c("FFAR4", "TLR4", "TLR5", "TNFRSF1A", "TNFRSF1B", "IL1B", "IFNYR") 
+
+#Plot genes by disease status: 
+dp_junc_genes <- DotPlot(gut, features = c(cldn, desmosome, AJ, TJ), group.by = "celltype_main", scale.by = "size")+
+  theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
+        legend.key.size = unit(4, 'mm'))+
+  guides(size = guide_legend(title = "%\nExpressed"))+
+  guides(color = guide_colorbar(title = "Expression"))+
+  scale_colour_gradient(low = "#ADD8E6", high = "#7F00FF")+
+  labs(y = "Cell Type")+
+  coord_flip(xlim = NULL, ylim = NULL, expand = TRUE)
+
+dp_goblet <- DotPlot(gut, features = goblet, group.by = "Diagnosis") +
+  theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
+        legend.key.size = unit(4, 'mm'))+
+  guides(size = guide_legend(title = "%\nExpressed"))+
+  guides(color = guide_colorbar(title = "Expression"))+
+  scale_colour_gradient(low = "#ADD8E6", high = "#7F00FF")+
+  labs(y = "Disease State")
+dp_goblet
+
+dp_sec <- dp_sec <-DotPlot(gut, features = sec, group.by = "Diagnosis") +
+  theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
+        legend.key.size = unit(4, 'mm'))+
+guides(size = guide_legend(title = "%\nExpressed"))+
+guides(color = guide_colorbar(title = "Expression"))+
+scale_colour_gradient(low = "#ADD8E6", high = "#7F00FF")+
+labs(y = "Disease State")
+dp_sec
+
+
+dp_cells_bycond <- DotPlot(gut, features = c(goblet, paneth, muc, sec, abs, isc, rsc) +
+  theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
+        legend.key.size = unit(4, 'mm'))+
+    guides(size = guide_legend(title = "%\nExpressed"))+
+  guides(color = guide_colorbar(title = "Expression"))+
+  scale_colour_gradient(low = "#ADD8E6", high = "#7F00FF")+
+  labs(y = "Disease State") 
+dp_cells_bycond
