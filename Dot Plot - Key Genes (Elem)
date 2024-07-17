@@ -4,10 +4,10 @@ gut$Diagnosis <- gsub("Pediatric Crohn Disease", "CD", gut$Diagnosis)
 
 #Make Gene lists: 
 #Mucins:
-muc <- c("MUC1", "MUC2", "MUC3A", "MUC4", "MUC5AC", "MUC5B","MUC13", "MUC17")
+muc <- c("MUC1", "MUC2", "MUC4","MUC13", "MUC17")
 
 #Claudins: 
-cldn <- c("CLDN2","CLDN3","CLDN4","CLDN5","CLDN7","CLDN8", "CLDN15","CLDN23")
+cldn <- c("CLDN2","CLDN3","CLDN4","CLDN5","CLDN7","CLDN8", "CLDN15", "CLDN23")
 
 #CBC/LBR5+ Stem cells: 
 isc <- c("LGR5", "OLFM4", "ASCL2", "EPHB2")
