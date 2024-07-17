@@ -1,0 +1,30 @@
+#Read packages
+library(dplyr)
+libary(fgsea)
+library(ggplot2)
+
+#Confirm genesets are loaded (made in GSEA - Elem) 
+LGR5_genes 
+cycling_ta_genes
+paneth_genes
+immature_goblet_genes
+mature_goblet_genes 
+entero_genes
+abs_ent_genes
+im_ent_genes
+tj_genes
+aj_genes
+desmo_genes
+cell_cell_ad_genes
+focal_ad_genes
+
+#Subset data by disease status to compare enrichment:
+kong$disease__ontology_label <- gsub("normal", "Non-IBD",kong$disease__ontology_label)
+kong$disease__ontology_label <- gsub("Crohn's disease", "CD",kong$disease__ontology_label)
+Idents(kong) <- kong$disease__ontology_label
+
+kong_CD_diagnosis <- subset(kong, subset = disease__ontology_label == "CD") 
+kong_Non_IBD_diagnosis <- subset(kong, subset = disease__ontology_label == "Non-IBD")
+
+#Find diferentially expressed genes by disease status: 
+gsea_markers_kong <- FindMarkers(kong, ident.1 = "CD", ident.2 = "Non-IBD")
