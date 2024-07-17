@@ -119,7 +119,27 @@ dp_junc_bycond <- DotPlot(gut, features = c(cldn, desmosome, AJ, TJ), group.by =
 dp_junc_bycond
 
 #Expression in epithelial cells only: 
+epithelial_gut <- subset(gut, celltype_main %in% c("Goblet cells", "Enterocytes", "Transit-amplifying cells"))
 
+dp_cells_bycond <- DotPlot(gut, features = c(goblet, paneth, muc, sec, abs, isc, rsc)+
+  theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
+        legend.key.size = unit(4, 'mm'))+
+  guides(size = guide_legend(title = "%\nExpressed"))+
+  guides(color = guide_colorbar(title = "Expression"))+
+  scale_colour_gradient(low = "#ADD8E6", high = "#7F00FF")+
+  labs(y = "Disease State")+
+coord_flip(xlim = NULL, ylim = NULL, expand = TRUE)
+dp_cells_bycond 
+
+dp_junc_bycond <- DotPlot(gut, features = c(cldn, desmosome, AJ, TJ), group.by = "celltype_main", scale.by = "size")+
+  theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
+        legend.key.size = unit(4, 'mm'))+
+  guides(size = guide_legend(title = "%\nExpressed"))+
+  guides(color = guide_colorbar(title = "Expression"))+
+  scale_colour_gradient(low = "#ADD8E6", high = "#7F00FF")+
+  labs(y = "Disease Status)+
+  coord_flip(xlim = NULL, ylim = NULL, expand = TRUE)
+dp_junc_bycond
 
 
 
