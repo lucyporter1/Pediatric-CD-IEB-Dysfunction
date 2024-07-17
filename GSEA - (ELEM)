@@ -1,5 +1,8 @@
-#Read DPLYR
+#Read packages
 library(dplyr)
+libary(fgsea)
+library(ggplot2)
+
 
 #Make genesets, #1 Fetal Signature
 fetal_signature_genes <- c("SPP1", "CNX43", "CTGF", "BASP1", "TROP2", "CAR2", "SFTPD", "MAL", "CLU", "WFDC2", "MSLN", "VSIG1", "EXPI", "TUBB6", "LY6A", "SYT14L", "CRIP2", "ANXA1", "COL4A1", "IL33", "LY6F", "SPRR1A", "LOR", "COL4A2", "KRT4", "IGFBP7", "AKAP13", "SPTSSB", "ECSCR", "IVL", "GKN1", "AKR1B8", "CDH13", "SLC45A3", "EFNA5", "ANXA8", "1700007K13RIK", "ACSM3", "PPIC", "ANXA3", "EDA2R", "S100A6", "LDH2", "LY6C", "EFEMP1", "DDIT4L", "PDZK1IP1", "LY6D", "2310002J15RIK", "CUGBP2", "LAPTM5", "PLEKHS1", "DSCR6", "HS6ST2", "SLC4A11")
@@ -173,8 +176,8 @@ tj_genes <- c("AKT3", "CDK4", "PATJ", "MYL12B", "MYL9", "MYL12A", "CLDN16", "EXO
   "MPDZ", "ACTN2", "ACTN3", "CLDN10", "CLDN8", "CLDN6", "CLDN2", "CLDN1", "CLDN9", "VAPA", 
   "MAGI1", "CRB3", "MYL10", "TJAP1", "TJP2", "MAGI2", "CDC42") 
 
-#Adherens Junctio
-aj_genes <- c"WASF2", "BAIAP2", "SORBS1", "WASF3", "SSX2IP", "CREBBP", "CSNK2A1", "CSNK2A2", 
+#Adherens Junction:
+aj_genes <- c("WASF2", "BAIAP2", "SORBS1", "WASF3", "SSX2IP", "CREBBP", "CSNK2A1", "CSNK2A2", 
   "CSNK2B", "CTNNA1", "CTNNA2", "CTNNB1", "CTNND1", "EGFR", "EP300", "ERBB2", 
   "FER", "FGFR1", "FYN", "NECTIN3", "CTNNA3", "IGF1R", "INSR", "RHOA", "LMO7", 
   "SMAD2", "SMAD3", "SMAD4", "MET", "AFDN", "LEF1", "NLK", "ACP1", "MAPK1", 
@@ -280,16 +283,13 @@ focal_ad_genes <- c("ITGA9", "PELO", "MYLK", "RAPGEF1", "ACTN1", "BRAF", "RAP1A"
 
 #Update grouping of expression by diagnosis: 
 Idents(gut) <- gut$Diagnosis_short
-
-#Rank data:
-libary(fgsea)
-library(dpylr)
-library(ggplot2)
-
 gut_CD_diagnosis <- subset(gut, subset = Diagnosis_short == "CD") 
-gut_NonIDB_diagnosis <- subset(gut, subset = Diagnosis_short == "Non-IBD")
+gut_NonIBD_diagnosis <- subset(gut, subset = Diagnosis_short == "Non-IBD")
 
+#Find differentially expressed genes by condition:
 gsea_markers_gut <- FindMarkers(gut, ident.1 = "CD" ident.2 = "Non-IBD")
+
+#Create rannked list:
 gsea_markers_gut <- gsea_markers_gut%>%
 rownames_to_column("gene")%>%
 rename(score = av_log2FC)
