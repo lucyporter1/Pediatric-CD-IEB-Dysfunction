@@ -1,6 +1,6 @@
 #Check diagnosis is correctly labelled: 
-gut$Diagnosis <- gsub("Pediatric healthy", "Non-IBD", gut$Diagnosis)
-gut$Diagnosis <- gsub("Pediatric Crohn Disease", "CD", gut$Diagnosis)
+gut$diagnosis_short <- gsub("Pediatric healthy", "Non-IBD", gut$Diagnosis_short)
+gut$Diagnosis_short <- gsub("Pediatric Crohn Disease", "CD", gut$Diagnosis_short)
 
 #Make Gene lists: 
 #Mucins:
@@ -48,7 +48,7 @@ dp_goblet <- DotPlot(gut, features = goblet, group.by = "Diagnosis", scale.by = 
   coord_flip(xlim = NULL, ylim = NULL, expand = TRUE)
 dp_goblet
 
-dp_sec <- DotPlot(gut, features = sec, group.by = "Diagnosis", scale.by = "size")+
+dp_sec <- DotPlot(gut, features = sec, group.by = "diagnosis_short", scale.by = "size")+
   theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
         legend.key.size = unit(4, 'mm'))+
 guides(size = guide_legend(title = "%\nExpressed"))+
@@ -58,7 +58,7 @@ labs(y = "Disease State")+
 coord_flip(xlim = NULL, ylim = NULL, expand = TRUE)
 dp_sec
 
-dp_abs <- DotPlot(gut, features = abs, group.by = "Diagnosis", scale.by = "size") +
+dp_abs <- DotPlot(gut, features = abs, group.by = "diagnosis_short", scale.by = "size") +
   theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
         legend.key.size = unit(4, 'mm'))+
 guides(size = guide_legend(title = "%\nExpressed"))+
@@ -68,7 +68,7 @@ labs(y = "Disease State")+
 coord_flip(xlim = NULL, ylim = NULL, expand = TRUE)
 dp_abs
 
-dp_paneth <- DotPlot(gut, features = paneth, group.by = "Diagnosis", scale.by = "size")+
+dp_paneth <- DotPlot(gut, features = paneth, group.by = "diagnosis_short", scale.by = "size")+
 theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
         legend.key.size = unit(4, 'mm'))+
 guides(size = guide_legend(title = "%\nExpressed"))+
@@ -78,7 +78,7 @@ labs(y = "Disease State")+
 coord_flip(xlim = NULL, ylim = NULL, expand = TRUE)
 dp_paneth
 
-dp_isc <- DotPlot(gut, features = isc, group.by = "Diagnosis", scale.by = "size")+
+dp_isc <- DotPlot(gut, features = isc, group.by = "diagnosis_short", scale.by = "size")+
 theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
         legend.key.size = unit(4, 'mm'))+
 guides(size = guide_legend(title = "%\nExpressed"))+
@@ -88,7 +88,7 @@ labs(y = "Disease State")+
 coord_flip(xlim = NULL, ylim = NULL, expand = TRUE)
 dp_isc
 
-dp_rsc <- DotPlot(gut, features = rsc, group.by = "Diagnosis", scale.by = "size")+
+dp_rsc <- DotPlot(gut, features = rsc, group.by = "diagnosis_short", scale.by = "size")+
 theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
         legend.key.size = unit(4, 'mm'))+
 guides(size = guide_legend(title = "%\nExpressed"))+
@@ -98,7 +98,7 @@ labs(y = "Disease State")+
 coord_flip(xlim = NULL, ylim = NULL, expand = TRUE)
 dp_rsc
 
-dp_cells_bycond <- DotPlot(gut, features = c(goblet, paneth, muc, sec, abs, isc, rsc), group.by = "Diagnosis", scale.by = "size")+
+dp_cells_bycond <- DotPlot(gut, features = c(goblet, paneth, muc, sec, abs, isc, rsc), group.by = "diagnosis_short", scale.by = "size")+
   theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
         legend.key.size = unit(4, 'mm'))+
   guides(size = guide_legend(title = "%\nExpressed"))+
@@ -108,7 +108,7 @@ dp_cells_bycond <- DotPlot(gut, features = c(goblet, paneth, muc, sec, abs, isc,
 coord_flip(xlim = NULL, ylim = NULL, expand = TRUE)
 dp_cells_bycond 
 
-dp_junc_bycond <- DotPlot(gut, features = c(cldn, desmosome, AJ, TJ), group.by = "Diagnosis", scale.by = "size")+
+dp_junc_bycond <- DotPlot(gut, features = c(cldn, desmosome, AJ, TJ), group.by = "diagnosis_short", scale.by = "size")+
   theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
         legend.key.size = unit(4, 'mm'))+
   guides(size = guide_legend(title = "%\nExpressed"))+
@@ -121,7 +121,7 @@ dp_junc_bycond
 #Expression in epithelial cells only: 
 epithelial_gut <- subset(gut, celltype_main %in% c("Goblet cells", "Enterocytes", "Transit-amplifying cells"))
 
-dp_cells_bycond <- DotPlot(epithelial_gut, features = c(goblet, paneth, muc, sec, abs, isc, rsc), group.by = "Diagnosis", scale.by = "size")+
+dp_cells_bycond <- DotPlot(epithelial_gut, features = c(goblet, paneth, muc, sec, abs, isc, rsc), group.by = "diagnosis_short", scale.by = "size")+
   theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
         legend.key.size = unit(4, 'mm'))+
   guides(size = guide_legend(title = "%\nExpressed"))+
@@ -131,7 +131,7 @@ dp_cells_bycond <- DotPlot(epithelial_gut, features = c(goblet, paneth, muc, sec
 coord_flip(xlim = NULL, ylim = NULL, expand = TRUE)
 dp_cells_bycond 
 
-dp_junc_bycond <- DotPlot(epithelial_gut, features = c(cldn, desmosome, AJ, TJ), group.by = "Diagnosis", scale.by = "size")+
+dp_junc_bycond <- DotPlot(epithelial_gut, features = c(cldn, desmosome, AJ, TJ), group.by = "diagnosis_short", scale.by = "size")+
   theme(axis.text.x = element_text(angle = 45,face = "italic",vjust = 1, hjust=1),
         legend.key.size = unit(4, 'mm'))+
   guides(size = guide_legend(title = "%\nExpressed"))+
