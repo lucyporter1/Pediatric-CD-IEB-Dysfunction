@@ -25,7 +25,7 @@ abs <- c("ELF3", "HES1")
 goblet <- c("AGR2" "SPINK4", "TFF3", "BEST4")
 
 #Receptors
-receptor <- c("FFAR4", "TLR4", "TLR5", "TNFRSF1A", "TNFRSF1B", "IL1B", "IFNYR") 
+receptor <- c("FFAR4", "TLR4", "TLR5", "TNFRSF1A", "TNFRSF1B", "IL1R", "IL2R", "IFNYR") 
 
 #Tight Junctions: 
 TJ <- c("F11R", "JAM3", "TJP1", "TJP2", "TJP3", "OCLN")
