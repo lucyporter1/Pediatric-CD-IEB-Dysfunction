@@ -36,7 +36,7 @@ kong <- RunUMAP (kong, dims = 1:10, label = TRUE)
 DimPlot(kong, reduction = "umap", group.by = "Celltype")
 
 #Epithelial Only UMAP: 
-epithelial_kong <- subset(gut, celltype_main %in% c("LGR5+ crypt-base stem cells", "Tuft cells", "Paneth cells", "Enteroendocrine cells", "Transit-amplifying cells", "Enterocytes", "Goblet cells")
+epithelial_kong <- subset(gut, celltype_main %in% c("LGR5+ crypt-base stem cells", "Tuft cells", "Paneth cells", "Enteroendocrine cells", "Transit-amplifying cells", "Enterocytes", "Goblet cells"))
 epithelial_kong <- NormalizeData(epithelial_kong)
 epithelial_kong <- FindVariableFeatures(epithelial_kong, selection.method = "vst", nfeatures = 2000)
 epithelial_kong <- ScaleData(epithelial_kong, features = all.genes)
