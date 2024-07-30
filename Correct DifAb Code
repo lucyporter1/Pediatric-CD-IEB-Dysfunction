@@ -1,0 +1,69 @@
+library(tidyverse)
+library(Seurat)
+library(tidyr)
+library(tibble)
+library(ggplot2)
+library(sccomp)
+gut$Diagnosis <- gsub("Pediatric healthy", "Non-IBD", gut$Diagnosis)
+gut$Diagnosis <- gsub("Pediatric Crohn Disease", "CD", gut$Diagnosis)
+
+kong$disease__ontology_label <- gsub("normal", "Non-IBD",kong$disease__ontology_label)
+kong$disease__ontology_label <- gsub("Crohn's disease", "CD",kong$disease__ontology_label)
+
+gut_meta <- gut@meta.data
+colnames(gut_meta)
+gut_meta_clean <- gut_meta[complete.cases(gut_meta[c("sample.name", "celltype_main", "nCount_RNA", "Diagnosis_short")]), ]
+gut@meta.data <- gut_meta_clean
+gut_meta_clean <- gut_meta[complete.cases(gut_meta[c("sample.name", "celltype_main", "nCount_RNA", "Diagnosis_short")]), ]
+gut@meta.data <- gut_meta_clean
+gut_df <- as_tibble(gut@meta.data)
+library(sccomp)
+
+sc_result_kong <- kong |> 
+  sccomp_glm(
+    formula_composition = ~ disease__ontology_label, 
+    .sample = biosample_id, 
+    .cell_group = Celltype, 
+    bimodal_mean_variability_association = 1, 
+    cores = 10)
+
+plots_kong <- plot_summary(sc_result_kong)
+plots_kong
+
+Ct_kong_difab <- plots_kong$boxplot[[1]]
+Ct_kong_difab <- Ct_kong_difab+
+  theme_classic()+
+  labs(title = NULL, shape = "Outlier", fill ='Signif')+
+  theme(legend.key.size = unit(2, 'mm'),
+        axis.text.y =element_text(size=6))
+
+pdf(paste0(pseudobulk_dir, "plots_kong/sccomp DA boxplot.pdf"),
+    width = 7, height = 4.5)
+Ct_kong_difab
+dev.off()
+
+#epithelial only
+epithelial_kong <- c("LGR5+ crypt-base stem cells", "Tuft cells", "Paneth cells", "Enteroendocrine cells", "Transit-amplifying cells", "Enterocytes", "Goblet cells")
+kong_df <- as_tibble(kong@meta.data)
+
+filtered_kong_df <- kong_df %>%
+  filter(Celltype %in% epithelial_kong)
+
+sc_result_kong_epi <- filtered_kong_df |> 
+  sccomp_glm(
+    formula_composition = ~ disease__ontology_label, 
+    .sample = biosample_id, 
+    .cell_group = Celltype, 
+    bimodal_mean_variability_association = 1, 
+    cores = 10)
+
+plots_epi_kong <- plot_summary(sc_result_kong_epi)
+plots_epi_kong
+
+Ct_kong_epi_difab <- plots_epi_kong$boxplot[[1]]
+Ct_kong_epi_difab <- Ct_kong_epi_difab+
+  theme_classic()+
+  labs(title = NULL, shape = "Outlier", fill ='Signif')+
+  theme(legend.key.size = unit(2, 'mm'),
+        axis.text.y =element_text(size=6))
+Ct_kong_epi_difab
