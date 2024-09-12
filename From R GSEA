@@ -445,4 +445,520 @@ topPathways <- fgsea_res %>%
 
 gut@meta.data <- gut@meta.data%>%
   select(-
+
+
+
+#Second 
+#Gsea Kong: 
+epithelial_gut <- subset(gut, celltype_main %in% c("Goblet cells", "Enterocytes", "Transit-amplifying cells"))
+unique(gut$celltype_main)
+epithelial_gut <- subset(gut, celltype_main %in% c("Goblet cells", "Enterocytes", "Transit-amplifying cells"))
+epithelial_gut <- RunUMAP(epithelial_gut, dims = 1:10)
+epithelial_gut <- NormalizeData(epithelial_gut)
+epithelial_gut <- FindVariableFeatures(epithelial_gut)
+epithelial_gut <- ScaleData(epithelial_gut)
+epithelial_gut <- RunPCA(epithelial_gut, features = VariableFeatures(object = epithelial_gut))
+epithelial_gut <- RunUMAP(epithelial_gut, dims = 1:10)
+DimPlot(epithelial_gut, reduction = "umap", group.by = "celltype_main")
+
+library(GGally)
+install.packages("GGally")
+NormalizeData(epithelial_gut)
+FindVariableFeatures(epithelial_gut, selection.method = "mean.var.plot", nfeatures = 2000)
+row.names(epithelial_gut)
+
+install.packages("edgebundleR")
+library(edgebundleR)
+install.packages("glimma")
+install.packages("org.Mm.eg.db")
+install.packages("BioConductor")
+library(BiocManager)
+BiocManager::install("limma")
+BiocManager::install("Glimma")
+library(msigdbr)
+n
+??fetch_gene_set
+
+fetalgenes <- "~/homevol/lucy/Documents/fetalsignaturegeneset.gmx"
+fetal_signature <- quiet(GGa.read.gmx(featl))
+quiet <- function(x) { 
+  sink(tempfile()) 
+  on.exit(sink()) 
+  invisible(force(x)) 
+}
+read_table(fetalgenes)
+fetalgenes <- "~/homevol/lucyporter/fetalsignaturegeneset.gmx"
+fetalgenes <- "/homevol/lucyporter/fetalsignaturegeneset.gmx"
+
+fetal_signature_genes <- c("SPP1", "CNX43", "CTGF", "BASP1", "TROP2", "CAR2", "SFTPD", "MAL", "CLU", "WFDC2", "MSLN", "VSIG1", "EXPI", "TUBB6", "LY6A", "SYT14L", "CRIP2", "ANXA1", "COL4A1", "IL33", "LY6F", "SPRR1A", "LOR", "COL4A2", "KRT4", "IGFBP7", "AKAP13", "SPTSSB", "ECSCR", "IVL", "GKN1", "AKR1B8", "CDH13", "SLC45A3", "EFNA5", "ANXA8", "1700007K13RIK", "ACSM3", "PPIC", "ANXA3", "EDA2R", "S100A6", "LDH2", "LY6C", "EFEMP1", "DDIT4L", "PDZK1IP1", "LY6D", "2310002J15RIK", "CUGBP2", "LAPTM5", "PLEKHS1", "DSCR6", "HS6ST2", "SLC4A11")
+)
+source(".Rhistory")
+
+install.packages("clusterProfiler")
+BiocManager::install("clusterProfiler")cores = 10
+
+#Read DPLYR
+library(dplyr)
+
+#Make genesets, #1 Fetal Signature
+fetal_signature_genes <- c("SPP1", "CNX43", "CTGF", "BASP1", "TROP2", "CAR2", "SFTPD", "MAL", "CLU", "WFDC2", "MSLN", "VSIG1", "EXPI", "TUBB6", "LY6A", "SYT14L", "CRIP2", "ANXA1", "COL4A1", "IL33", "LY6F", "SPRR1A", "LOR", "COL4A2", "KRT4", "IGFBP7", "AKAP13", "SPTSSB", "ECSCR", "IVL", "GKN1", "AKR1B8", "CDH13", "SLC45A3", "EFNA5", "ANXA8", "1700007K13RIK", "ACSM3", "PPIC", "ANXA3", "EDA2R", "S100A6", "LDH2", "LY6C", "EFEMP1", "DDIT4L", "PDZK1IP1", "LY6D", "2310002J15RIK", "CUGBP2", "LAPTM5", "PLEKHS1", "DSCR6", "HS6ST2", "SLC4A11")
+
+#Revival Stem Cells
+revival_genes <- c("MALAT1", "LY6D", "CLU", "CLDN4", "SPRR1A", "AREG", "GSTA1", "TM4SF4", "LYPD8", "NEAT1", "UBD", "CTSD", "REG3G", "CDKN1A", "GUCA2A", "EMP1", "MUC3", "MS4A10", "GM42418", "AHNAK", "LAMC2", "SERPINB1A", "CDH1", "KRT19", "CDHR5", "CCND2", "CLDN3", "CXADR", "LGALS3", "GSTA4", "F3", "CXCL16", "2210407C18RIK", "F11R", "XIST", "REG3B", "PRAP1", "GUCA2B", "ITM2B", "NUPR1", "ANXA1", "BASP1", "KRT8", "TOB1", "ITGB4", "CDH17", "ANXA2", "PLEC")
+
+#LGR5 Stem Cells
+LGR5_genes <- c(
+  "LGR5", "A930009A15RIK", "LIMCH1", "NA", "TNFRSF19", "NA", "GZMA", "SLC38A4", 
+  "E330027M22RIK", "LGR5", "FSTL1", "A730054J21RIK", "KLHL13", "CCDC3", "FSTL1", 
+  "CHST2", "NA", "KIF26B", "FAM43A", "FAM49A", "ARL4C", "WWTR1", "BEX4", "DGKG", 
+  "CLU", "CCDC46", "PCDH8", "PGC", "LDHB", "ASCL2", "FAM65B", "ASGR1", "LECT2", 
+  "RASSF5", "NAV1", "ZNF618", "CYP2E1", "IRS1", "NA", "SLC1A2", "SERTAD4", "GPER", 
+  "SLCO3A1", "LIMCH1", "PTGDS", "VWA2", "FSCN1", "ABTB2", "ASCL2", "GPER", "SMO", 
+  "IGFBP4", "SOX4", "RASSF5", "GRAMD1A", "ANGPT2", "PXDN", "LOC100132413", "SCN2B", 
+  "TGTP", "B230114P17RIK", "SMO", "VAV3", "NA", "APCDD1", "CASP12", "APCDD1", 
+  "VAV3", "PCDH8", "MACC1", "RGS7BP", "SLC16A2", "IGFBP4", "SLIT2", "SORCS2", 
+  "MPP3", "ZBTB16", "ASCL2", "CBS", "PI3", "LOC100132413", "BEX1", "RGMB", 
+  "SLC1A2", "SORBS2", "SLC25A27", "MEX3A", "NA", "MIPOL1", "IGFBP4", "NR2E3", 
+  "NA", "CIB2", "4933406C10RIK", "ZNF618", "BRAF", "FAM20C", "KIF12", "Sep-06", 
+  "NA", "FAM115A", "IGFBP4", "AKR1D1", "LDHB", "SDR16C5", "PIK3IP1", "ESRRG", 
+  "E230029C05RIK", "CAP2", "NA", "FGFR4", "SLC16A2", "MYLK3", "NOTCH4", "GPR126", 
+  "IGFBP4", "KIAA1199", "SOAT1", "NA", "MNX1", "TACC1", "NRP1", "MARVELD1", 
+  "IL17RD", "FAM188B", "ID2", "SEMA3C", "CASP12", "RGMB*", "SLCO3A1*", "ASGR2", 
+  "SMARCD3", "FMNL2", "RASSF4", "CCND3", "BHLHB9", "EPHA4", "PLP1", "FAM64A", 
+  "SCN2B", "AFAP1L1", "ZFP58", "RGS19", "P4HTM", "RGMB*", "NA", "APCDD1*", "RPE", 
+  "NA", "SRPK2", "RASSF10", "DLGAP1", "TMEM146", "SECTM1", "DYNC2H1", "HNMT", 
+  "ODZ4", "EXPI", "NA", "NOTCH4", "MDFIC", "NA", "BCL2", "FGFR4", "TNFRSF19", 
+  "AGR3", "TF", "CHST11", "NA", "NA", "AXIN2", "TMEM182", "ZNF383", "CCDC46") 
+
+#Cycling TA Cells: 
+cycling_ta_genes <- c("LGALS4", "SPC25", "CKAP2L", "SKA1", "TICRR", "CENPA", 
+                      "NCAPG", "CDC25C", "PBK", "UBE2C", "C17orf53", "BIRC5", "KIF18B", "TPX2", "RRM2", 
+                      "C15orf48", "AUNIP", "AURKB", "HJURP", "NCAPH", "CCNA2", "ASPM", "AP000251.3", 
+                      "PKMYT1", "FAM64A", "PIGR", "KIF4A", "CCNF", "KIF20A", "TOP2A", "SGOL1", "AGR2", 
+                      "TK1", "PLK1", "CDC20", "HIST1H2AJ", "KIF15", "NEK2", "MELK", "KIF2C", "NUSAP1", 
+                      "CDKN3", "RAD54L", "SAPCD2", "GTSE1", "MND1", "CDCA2", "EPCAM", "CENPM", "CDC45", 
+                      "CDCA3", "NDC80", "E2F8", "CEP55", "OIP5", "BUB1B", "FOXM1", "CENPI", "RTKN2", 
+                      "CDCA5", "ORC1", "DLGAP5", "EXO1", "CDK1", "ANLN", "HIST1H1B", "CENPF", "PTTG2", 
+                      "DEPDC1", "ARHGAP11A", "CASC5", "KIF23", "BUB1", "ASF1B", "CENPE", "MKI67", 
+                      "RECQL4", "PSRC1", "E2F1", "MYBL2", "ERCC6L", "STMND1", "CENPW", "C21orf58", 
+                      "KIFC1", "GINS1", "STMN1", "TROAP", "GPX2", "SPC24", "FAM111B", "TYMS", "PRC1", 
+                      "C16orf59", "E2F7", "HMGB2", "CCNB1", "TSPAN8", "HMMR", "RIBC2", "UBE2T", "POC1A", 
+                      "PTTG1", "GINS2", "MGST1", "CCNB2", "MT1G", "C18orf56", "KIAA0101", "MAD2L1", 
+                      "MXD3", "MT3", "TACC3", "CDT1", "REG1A", "ZWINT", "IGFBP2", "FABP5", "DTYMK", 
+                      "SPINK1", "CENPN", "NUPR1", "MCM7", "FEN1", "LIG1", "CLDN7", "LINC00669", 
+                      "SERPINA6", "CCDC34", "RNASEH2A", "LMNB1", "DHFR", "TUBB", "MCM5", "CTB-175P5.4", 
+                      "PPP1R1B", "URAD", "HMGCS2", "NUDT1", "PLA2G2A", "MIS18A", "LEFTY1", "IDH2", 
+                      "RP11-519G16.5", "SHMT1", "CLDN15", "RFC2", "C19orf48", "GMNN", "CKS1B", "GCHFR", 
+                      "CTD-2090I13.1", "KCNJ3", "THOC3", "TRAP1", "NASP", "AC009501.4", "PCNA", 
+                      "UGT2B17")
+
+#Paneth Cells
+paneth_genes <- c("DEFA5", "DEFA6", "REG3A", "REG1A", "DCN", "JCHAIN", "PRSS2", "MGP", "OLFM4", 
+                  "PLA2G2A", "FABP6", "ITLN2", "IGHV12", "SFRP2", "IGKV320", "IGLV140", "IGHV118", 
+                  "CFD", "IGHV459", "IGHA1", "LUM", "SPARCL1", "IGLV319", "IGHV321", "IGLV223", 
+                  "IGHV37", "COL3A1", "LYZ")
+
+#Immature Goblet Cells; 
+immature_goblet_genes <- c("TFF3", "KLK1", "LGALS4", "ITLN1", "WFDC2", "FCGBP", "CLCA1", "MUC2", "LRRC26",
+                           "RETNLB", "RNASE1", "SPINK4", "KRT18", "GALNT8", "REP15", "LA16c-321D4.2", 
+                           "AC011523.2", "SPINK1", "KRT8", "ZG16", "TPSG1", "AGR2", "SERPINA1", "RP11-234B24.2",
+                           "ST6GALNAC1", "HEPACAM2", "MB", "KLK15", "BEST2", "TMEM61", "LINC00238", "S100A6",
+                           "ANXA13", "KLK3", "LINC00261", "RAP1GAP", "KLK4", "SPDEF", "REG4", "CAPN9", "CA9",
+                           "STARD10", "LA16c-395F10.2", "FAM3D", "KLK12", "CA8", "CCDC60", "ANO1", "CREB3L1",
+                           "IFI27", "DNAJC12", "CCDC108", "GMDS", "NPDC1", "C15orf48", "HOXA-AS3", "CTD-2547H18.1",
+                           "EPCAM", "CACNA2D2", "SCGB2A1", "ANO7", "IL1R2", "ANG", "SMIM22", "TSPAN13", "RAB15",
+                           "C2orf82", "CREB3L4", "UGT2B7", "GNE", "MLPH", "LINC00570", "FOXA2", "KIAA1324",
+                           "SLC12A8", "KCNMA1", "RAB26", "TMSB10", "COX6C", "TCEA3", "FOXA3", "B3GNT6", "PLCXD2",
+                           "PRDX5", "SP5", "TMEM141", "SLC12A2", "NEURL", "KIAA1244", "HES6", "DEFA6", "RNA18S5",
+                           "FABP2", "TTC39A", "URAD", "NANS", "PPP1R1B", "CGREF1", "CCL26", "GPX2", "CDC42EP5",
+                           "COX5A", "IGFBP2", "COX5B", "CST3", "UQCRH", "RASD1", "CLDN3", "VSIG2", "ZG16B", "HPCAL1",
+                           "PFKFB4", "C17orf76-AS1", "SMAGP", "MARCKSL1", "TSTA3", "RAB27A", "UQCR10", "CHCHD10",
+                           "CD9", "ATP5G1", "CCL15", "MT-ND3", "TPM1", "CLDN4", "SPINT2", "S100A14", "KRTCAP3",
+                           "PCBD1", "RAB25", "MT1G", "ERI3", "HSD11B2", "ELF3", "HMGCS2", "CLDN7", "MT1E", "C10orf99",
+                           "XBP1", "TSPAN1")
+
+#Mature Goblet Cells:
+mature_goblet_genes <- c("ZG16", "MUC2", "TFF1", "TFF3", "PHGR1", "IFI27", "FCGBP", "TBX10", "FXYD3", "AC093642.3",
+                         "TSPAN1", "S100P", "LINC01022", "GSN", "LYPD8", "CEACAM5", "GPR153", "FFAR4", "FAM177B",
+                         "RP11-363E7.4", "MUC1", "SYT7", "TFF2", "FER1L6", "REP15", "KRT18", "CLDN4", "STXBP5-AS1",
+                         "FAM3D", "KRT8", "LGALS4", "AC009133.21", "MUC13", "SMIM6", "CLDN7", "KREMEN2", "IL3RA",
+                         "ENTPD8", "MLPH", "MT-RNR1", "RN7SKP127", "CTD-2589M5.4", "TPSG1", "SYTL5", "CAPN8", "ELF3",
+                         "KLK1", "BEST2", "S100A6", "SYTL2", "SLC7A11", "CREB3L1", "SERPINA1", "SCGB2A1", "CAPN9",
+                         "LGALS9B", "BCAS1", "RAB3B", "TM4SF5", "UCA1", "RP3-340N1.5", "ANKRD36C", "AGAP1-IT1", "NPW",
+                         "MLLT3", "SDCBP2", "VSIG2", "GALNT5", "ZG16B", "PLAC8", "GUCA2B", "CLDN3", "RAG1", "GPRIN2",
+                         "AC147651.3", "CLDN8", "AMN", "PRUNE2", "NEAT1", "RASEF", "FAM101A", "SPDEF", "FOXA3",
+                         "SDR16C5", "MT-RNR2", "MFSD4", "SPNS2", "SCNN1A", "MB", "TRIM31", "GLTPD2", "KCNK1",
+                         "LINC00842", "SPATS2L", "GDPD3", "PCDH20", "CHAD", "SSTR2", "EPCAM", "C19orf33", "SMIM22",
+                         "SBF2-AS1", "CHRNA7", "PARM1", "MISP", "TUBB2A", "MXD1", "CDHR5", "KAZALD1", "CLTB",
+                         "HIST1H2BG", "ITM2C", "LGALS9C", "NPDC1", "GPA33", "RNF39", "TP53INP2", "KRT20", "TMEM54",
+                         "SERINC2", "RASD2", "DHRS9", "PLA2G10", "PIGR", "MYO15B", "GUCA2A", "C15orf48", "HIST1H1C",
+                         "LAMB3", "STARD10", "LSR", "CFDP1", "RP11-665N17.4", "PRSS3", "NEDD4L", "ITLN1", "QSOX1",
+                         "SLC44A4", "GALE", "LINC00342", "SPINT2", "RP11-48O20.4", "SMIM14", "SPINT1", "RHOC",
+                         "MGLL", "TSPAN3", "RP11-845C23.2", "AGR2", "RECQL5", "CKB", "RP11-757F18.5", "CA2",
+                         "C4orf36", "ISG20", "DHX32", "MUC4", "LRRC31", "SHH", "RP11-92K15.3", "USP54", "SYTL4",
+                         "ADM2", "HIST1H3D", "TEP1", "LINC00543", "GAREM", "BEST2", "ZG16", "MUC4", "KLK1",
+                         "MUC5B", "RETNLB", "FAM3D", "IL1R2", "TPSG1", "FFAR4", "RNASE1", "PIEZO1", "IER3",
+                         "MUC1", "KLF2", "GNE", "B3GNT6", "ABLIM1", "ADAM15", "ATP2C2", "FAM83E", "ENTPD8",
+                         "SLC39A8", "EMP2", "PPP1R1B", "RASEF", "PTGER4", "MUC2", "ERN2", "GRK2", "CLCA1",
+                         "SPINK4", "BCAS1", "ATOH1", "FCGBP", "HPCAL1", "FAM177B", "NTN4", "AC005833.1",
+                         "ABCA4", "REP15", "ST6GALNAC1", "SEL1L3", "FRZB", "GALNT5", "CRACR2A", "GALNT8",
+                         "MUC5AC", "MUC3", "MUC13", "MUC6", "MUC17")
+
+#Enteroendocrine Cells: 
+entero_genes <- c("CRYBA2", "SCGN", "FEV", "CHGA", "VWA5B2", "GCG", "SCG5", "PCSK1N", "TPH1", "TTR",
+                  "NKX2-2", "PYY", "RTN1", "CACNA1A", "CADPS", "CXXC4", "SLC29A4", "ARX", "ISL1",
+                  "NEUROD1", "CHGB", "PELI3", "RP11-279F6.1", "MLXIPL", "RP11-17M24.1", "ETV1", "GNG4",
+                  "CYP2W1", "RAB3B", "MS4A8", "RAMP1", "CES1", "RAB26", "CPE", "SCT", "KIF12", "DNAJC12",
+                  "INSL5", "KIAA1456", "HOXB8", "NPW", "C6orf141", "HOXB9", "NFASC", "REG4", "MNX1",
+                  "CACNA1D", "KIAA1324", "C21orf58", "BAIAP3", "SYT7", "GCH1", "C19orf77", "TPPP3",
+                  "TMEM61", "SOX4", "SYT13", "ASCL2", "PAM", "Z83851.1", "DDC", "SYP", "SEZ6L2", "C3orf14",
+                  "LFNG", "IL17RB", "ERI3", "RBP4", "SYBU", "MDK", "DMXL2", "HEPACAM2", "FAM174B",
+                  "RAP1GAP2", "WNK4", "QPCT", "C10orf10", "TEAD1", "NEURL", "PRUNE2", "PEMT", "COLCA1",
+                  "RASD1", "CCDC24", "GUCY2C", "PODXL2", "SMIM6", "FOXD2", "HOXB-AS3", "NISCH", "LXN",
+                  "RARRES1")
+
+#Absorptive Enterocytes: 
+abs_ent_genes <-   c("PHGR1", "KRT8", "LGALS4", "REN", "SULT1E1", "C4BPA", "FABP1", "OTOP3", "CEACAM3", 
+                     "KIAA1239", "MYOM1", "MSLN", "FXYD3", "OTOP2", "MYPN", "CA4", "BEST4", "CTSE", 
+                     "EPCAM", "SDCBP2", "KRT18", "S100A6", "CLDN3", "LGALS3", "CLDN7", "CPA2", "CELA3A", 
+                     "RP11-416N2.3", "CA7", "RP11-116O18.1", "LYPD8", "CELA3B", "RP11-10N16.2", "CLDN4", 
+                     "TSPAN1", "RP11-227H15.4", "ADCY5", "RP11-1220K2.2", "C15orf48", "KRT20", "C12orf36", 
+                     "CEACAM6", "AQP7", "KPNA7", "PIGR", "LINC00520", "GPR37L1", "CEACAM5", "GUCA2A", 
+                     "PTPRR", "ELF3", "SLC15A1", "GLRA4", "LINC00955", "MEIS1", "PRSS3", "SAA2", "LINC00704", 
+                     "RAB6B", "GUCA2B", "CDA", "RP1-35C21.1", "ASPRV1", "S100A10", "APOBEC1", "TMEM54", 
+                     "EMP1", "KNG1", "SMIM22", "CDHR2", "CIDEC", "AQP12A", "SPIB", "CA2", "C19orf33", 
+                     "SERPINB5", "SSUH2", "RP11-1399P15.1", "LINGO1", "C11orf86", "RP11-798K3.2", "SECTM1", 
+                     "SLC14A2", "CLCA4", "CYSTM1", "ITM2C", "GPR110", "TM4SF20", "CEACAM1", "IFI27", 
+                     "MUC13", "GPR115", "ABCG2", "RP11-771K4.1", "SRI", "SLC5A11", "CEACAM7", "MEP1A", 
+                     "TRIM31", "ALDOB", "HSD17B2", "NLN", "MISP", "AOC1", "C10orf99", "CLDN23", "CDHR5", 
+                     "PLAC8", "GPA33", "MYO15B", "MGAM", "MALL", "HPGD", "SERINC2", "TMIGD1", "AC069277.2", 
+                     "GPRC5A", "HRCT1", "SULT1A2", "PRAP1", "DMBT1", "SLC6A8", "DHRS9", "PPP1R14D", 
+                     "RP11-48O20.4", "HIST1H1C", "TMEM45B", "TSPAN8", "APOBEC3B", "MS4A12", "TP53INP2", 
+                     "FAM3D", "KRT19", "TMEM171", "STAP2", "TST", "PRR15L", "TMEM37", "AMN", "SPINT1", 
+                     "TMPRSS2", "LAMB3", "GCNT3", "SLC22A18", "LINC00035", "LINC00483", "ANPEP", "PKIB", 
+                     "SLC51B", "AQP8", "CHP2", "RHOF", "CTD-2228K2.5", "MYH14", "AGPAT2", "EFNA1", 
+                     "CCL15", "C2orf88", "C8G", "MDK", "SLC26A3", "CCNYL1", "RHOV", "MT1H")
+
+#Immature Enterocytes: 
+im_ent_genes <- c("FABP1", "PHGR1", "LGALS4", "FXYD3", "KRT8", "CA2", "C15orf48", "CLDN7", "SLC26A3", 
+                  "PIGR", "TSPAN1", "PDZK1", "LGALS3", "C19orf33", "SLC26A2", "KRT18", "KRT20", "MS4A12", 
+                  "SLC51B", "S100A6", "KRT19", "TMEM54", "EPCAM", "CASP16", "MALL", "CES2", "SMIM22", 
+                  "CDHR5", "CTD-2228K2.5", "FAM151A", "CA1", "CEACAM7", "PLAC8", "MISP", "SDCBP2", 
+                  "GCNT3", "PRSS3", "DAO", "GUCA2A", "CDKN2B-AS1", "IFI27", "PRAP1", "SYT8", "TST", 
+                  "AQP8", "CEACAM1", "PKIB", "CHP2", "COL17A1", "HSD3B2", "SRI", "RP11-48O20.4", "AMN", 
+                  "SELENBP1", "ANPEP", "CLDN3", "ETHE1", "DHDH", "CKB", "SULT1A2", "CA4", "ELF3", 
+                  "C2orf88", "FLNB", "SLC44A4", "SFN", "SLC51A", "FSIP2", "FAM132A", "HSD11B2", 
+                  "LINC00974", "AKR1B10", "RP5-1013A22.5", "GDPD2", "CLDN4", "AOC1", "TUBAL3", "CYSTM1", 
+                  "CEACAM5", "PPP1R14D", "MEP1A", "RP5-1112D6.8", "S100A14", "GUCA2B", "TMIGD1", 
+                  "SLC17A4", "IGSF9", "C10orf99", "TAC1", "SULT1A1", "MYH14", "GNA11", "SERINC2", 
+                  "AGPAT2", "GPA33", "DEFB1", "RETSAT", "TSPAN8", "KIAA1211", "DHRS11", "RP11-576I22.2", 
+                  "PRR15", "TMEM45B", "FAM3D", "CDH17", "LINC00483", "RP11-800A18.4", "STAP2", "MGAT4B", 
+                  "LYPD8", "ASS1", "ST14", "TMEM171", "NDRG1", "TJP3", "SPINT2", "MVP", "HMGCS2", 
+                  "ACAA2", "MUC13", "SLC22A18", "MYO15B", "MGLL", "HSD17B2")
+
+#Tight Junctions: 
+tj_genes <- c("AKT3", "CDK4", "PATJ", "MYL12B", "MYL9", "MYL12A", "CLDN16", "EXOC3", "CLDN4", "CLDN3", 
+              "CLDN7", "CLDN23", "CSNK2A1", "CSNK2A2", "CSNK2B", "CLDN19", "CTNNA1", "CTNNA2", "CTNNB1", 
+              "IGSF5", "AMOTL1", "CTTN", "EPB41", "EPB41L1", "EPB41L2", "AKT1", "AKT2", "RRAS2", "MRAS", 
+              "MYH15", "EPB41L3", "CLDN14", "CLDN15", "MAGI3", "CLDN17", "TJP3", "GNAI1", "GNAI2", 
+              "GNAI3", "CTNNA3", "MYL11", "HCLS1", "HRAS", "KRAS", "RHOA", "LLGL2", "LLGL1", "AFDN", 
+              "MYH1", "MYH2", "MYH3", "MYH4", "MYH6", "MYH7", "MYH8", "MYH9", "MYH10", "MYH11", "MYL2", 
+              "MYL5", "NRAS", "OCLN", "CLDN20", "CLDN11", "F11R", "PARD6A", "CLDN18", "MAP3K20", 
+              "CLDN22", "PPP2CA", "PPP2CB", "PPP2R1A", "PPP2R1B", "PPP2R2A", "PPP2R2B", "PPP2R2C", 
+              "PRKCA", "PRKCB", "PRKCD", "PRKCE", "PRKCG", "PRKCH", "PRKCI", "PPP2R2D", "ASH1L", 
+              "PRKCQ", "PRKCZ", "PARD3", "PTEN", "CGN", "MYH7B", "JAM2", "MYL7", "RAB3B", "RAB13", 
+              "ACTB", "EXOC4", "RRAS", "PALS1", "SPTAN1", "SRC", "TJP1", "ACTG1", "CLDN5", "YES1", 
+              "MYH14", "ACTN4", "SYMPK", "JAM3", "PARD6G", "PARD6B", "YBX3", "CASK", "ACTN1", "MYH13", 
+              "MPDZ", "ACTN2", "ACTN3", "CLDN10", "CLDN8", "CLDN6", "CLDN2", "CLDN1", "CLDN9", "VAPA", 
+              "MAGI1", "CRB3", "MYL10", "TJAP1", "TJP2", "MAGI2", "CDC42") 
+
+#Adherens Junction
+aj_genes <- c("WASF2", "BAIAP2", "SORBS1", "WASF3", "SSX2IP", "CREBBP", "CSNK2A1", "CSNK2A2", 
+              "CSNK2B", "CTNNA1", "CTNNA2", "CTNNB1", "CTNND1", "EGFR", "EP300", "ERBB2", 
+              "FER", "FGFR1", "FYN", "NECTIN3", "CTNNA3", "IGF1R", "INSR", "RHOA", "LMO7", 
+              "SMAD2", "SMAD3", "SMAD4", "MET", "AFDN", "LEF1", "NLK", "ACP1", "MAPK1", 
+              "MAPK3", "PARD3", "PTPN1", "PTPN6", "PTPRB", "PTPRF", "PTPRJ", "PTPRM", 
+              "NECTIN1", "NECTIN2", "RAC1", "RAC2", "RAC3", "ACTB", "SNAI2", "SNAI1", 
+              "SRC", "MAP3K7", "TCF7", "TCF7L2", "TGFBR1", "TGFBR2", "TJP1", "ACTG1", 
+              "VCL", "WAS", "YES1", "ACTN4", "NECTIN4", "TCF7L1", "ACTN1", "ACTN2", 
+              "IQGAP1", "ACTN3", "WASF1", "WASL", "FARP2", "CDC42", "CDH1")
+
+#Desmosome:
+desmo_genes <-c("ATP2A2", "CAV1", "CDH1", "CKAP4", "CTNND1", "DSC2", "DSC3", "DSG1", "DSG2", 
+                "DSG3", "DSP", "EGFR", "JUP", "KIF2A", "KTN1", "PKP1", "PKP2", "PKP3", "PKP4", 
+                "PRKCA")
+
+#Cell-Cell Adhesion: 
+cell_cell_ad_genes <- c( "CSTDC5", "CSTDC6", "SIRPB1C", "ILDR2", "CCL21B", "TIGIT", "CD200L2", 
+                         "AKNA", "IL4I1", "H2-EA", "DCHS2", "CCL21D", "RIC8A", "CD276", "CDH22", 
+                         "ITGA9", "PIK3R6", "PTPN23", "CBLL1", "DUSP22", "SCRIB", "AMIGO2", 
+                         "NCKAP1L", "PRICKLE1", "IL1RL2", "RAPGEF1", "LGALS2", "CELSR3", "OLR1", 
+                         "FERMT3", "CARD11", "MEX3B", "TSPAN9", "ADTRP", "DSP", "ITGA1", "FGB", 
+                         "RAP1GAP", "H2-Q6", "H2-M10.3", "ADGRV1", "LIMS1", "ABL1", "ABL2", "NPNT", 
+                         "ADIPOQ", "ACTB", "ACVR1", "PAWR", "ADA", "DSCAML1", "ADAM19", "ADAM8", 
+                         "ADAM9", "ADD2", "ADK", "ADORA2A", "GM1113", "AGER", "AIF1", "AKT1", 
+                         "ALCAM", "FGFRL1", "ALOX12", "ALOX15", "ALOX5", "BLOC1S4", "ANK3", "BOC", 
+                         "AP3B1", "AP3D1", "APOA1", "APOA4", "AQP4", "ARG1", "ARG2", "RHOA", 
+                         "ARVCF", "ASS1", "ASTN1", "ATP1B2", "SLC7A1", "PCDH15", "B2M", "BAD", 
+                         "BCL10", "BCL2", "BCL6", "BLM", "BMI1", "BMP2", "BMP4", "BMP5", "BMP6", 
+                         "BMP7", "ZFP36L1", "BTN1A1", "PDIA4", "CAPN1", "CASP3", "CTNNA1", 
+                         "CTNNA2", "CTNNB1", "CTNND1", "CAV1", "RUNX1", "RUNX3", "CBFB", "CBLN1", 
+                         "CTLA4", "CD1D1", "CD1D2", "CD2", "CD24A", "CD28", "CD2AP", "CD34", 
+                         "CD37", "CD3E", "CD4", "CD44", "CD5", "CD53", "CD59A", "CD6", "CD80", 
+                         "CD81", "CD83", "CD86", "CD9", "CDC42", "CDH1", "CDH11", "CDH13", "CDH15", 
+                         "CDH16", "CDH17", "CDH2", "CDH3", "CDH4", "CDH5", "CDH6", "CDH8", "CDH9", 
+                         "CDK5R1", "CDKN2A", "CEBPB", "CELSR1", "CFH", "CHL1", "SOCS1", "CORO1A", 
+                         "CLDN1", "CLDN2", "CLDN3", "CLDN5", "CCR2", "CCR5", "CCR7", "CNTN1", 
+                         "COL13A1", "COMP", "PCDHA4", "PCDHA7", "PCDHA10", "CTSG", "CX3CR1", 
+                         "CXADR", "CYP1B1", "DAB1", "CD55", "CD55B", "DCC", "DLG1", "DLG4", 
+                         "DPP4", "DSC1", "DSC2", "DSC3", "DSCAM", "DSG1A", "DSG2", "DSG3", 
+                         "SPARCL1", "EFNA5", "EFNB1", "EFNB2", "EFNB3", "EGFR", "EGR3", "EMB", 
+                         "EPHA3", "EPHA7", "EPHB3", "EPHB4", "EPHB6", "EPO", "ERBB2", "ERF", 
+                         "MPZL2", "EXT1", "MUC4", "PLXNB2", "PLXNB3", "F2RL3", "FADD", "PTK2", 
+                         "FAT1", "FER", "FGA", "FGL2", "IL4I1", "FLOT1", "FLOT2", "FUT4", "FUT7", 
+                         "FUT9", "DTX1", "B4GALNT2", "GATA1", "GATA3", "GATA5", "GCNT1", "GCNT2", 
+                         "GLI3", "GNAS", "GNRH1", "GP1BA", "PDPN", "LILRB4B", "LILRB4A", "GPAM", 
+                         "GPC4", "GRID2", "PDIA3", "GSTP1", "MAGI1", "H2-AA", "H2-AB1", "H2-BL", 
+                         "H2-D1", "H2-EB1", "H2-K1", "H2-M10.1", "H2-M2", "H2-M9", "H2-DMA", 
+                         "H2-DMB1", "H2-DMB2", "H2-OA", "H2-OB", "H2-Q1", "H2-Q10", "H2-Q2", 
+                         "H2-Q4", "H2-Q7", "H2-T10", "H2-T22", "H2-T23", "H2-T3", "HAS2", "PTPN6", 
+                         "HES1", "HFE", "FOXJ1", "FOXF1", "HLX", "HMGB1", "HSPH1", "HSPB1", 
+                         "HSPD1", "HSP90AA1", "SLC6A4", "ICAM1", "ICAM2", "ICAM5", "IDO1", "IRGM1", 
+                         "IFNB1", "IFNG", "IGF1", "IGF2", "CCN1", "IGFBP2", "IHH", "CD74", "IL10", 
+                         "IL12A", "IL12B", "IL12RB1", "IL15", "IL18", "IL1A", "IL1B", "IRAK1", 
+                         "IL1RAP", "IL1RN", "IL2", "IL2RA", "IL2RG", "IL3", "IL4", "IL4RA", "IL6", 
+                         "IL6RA", "IL6ST", "IL7", "IL7R", "IRF1", "ITCH", "ITGA2", "ITGA2B", 
+                         "ITGA3", "ITGA4", "ITGA5", "ITGA6", "ITGA7", "ITGAE", "ITGAL", "ITGAM", 
+                         "ITGAV", "ITGAX", "ITGB1", "ITGB2", "ITGB2L", "ITGB3", "ITGB5", "ITGB7", 
+                         "CD47", "JAG1", "JAK1", "JAK2", "JAK3", "F11R", "AJUBA", "JUP", "KIFAP3", 
+                         "KIFC3", "KIT", "KLF4", "L1CAM", "LAG3", "DSG4", "LAMA3", "LAMA5", "LAMB1", 
+                         "RPSA", "LAPTM5", "LCK", "LEF1", "LEP", "LGALS1", "LGALS3", "LGALS9", 
+                         "SH2B3", "LOXL3", "XCL1", "LRP5", "LRP6", "CD93", "KIRREL", 
+                         "CDHR1", "EPCAM", "CD209C", "CD209D", "CD209E", "CD209A", "CRB1", "GLMN", 
+                         "LYN", "NTNG2", "MAD1L1", "MADCAM1", "HAVCR2", "SMAD7", "MAG", "MBP", "CD46", "MDK", "KITL", "AFDN", "MMP24", "CD200", "MPZ", "CITED2", 
+                         "MSN", "MYH9", "MYO10", "NCAM1", "NCK1", "NCK2", "NEO1", "NF2", "NINJ1", 
+                         "CD244A", "NODAL", "NR4A3", "NOTCH1", "NOTCH4", "CCN3", "CTNND2", "NRXN1", 
+                         "NTN1", "PCDH10", "PCDH8", "PCK1", "PDGFRA", "PECAM1", "PIK3R1", "PIP5K1C", 
+                         "PRKCA", "PRKCD", "PRKCQ", "PRKCZ", "PKD1", "PKP1", "PLA2G2A", "PLA2G2D", 
+                         "PLA2G5", "PLAU", "CCL21A", "PNN", "PNP", "PPARA", "PPP3CA", "PRKAR1A", 
+                         "PRKG1", "PRNP", "PSEN1", "PTAFR", "PTEN", "PCDHA9", "NLGN1", "LRRC4", 
+                         "TMEM47", "PTPN2", "PTPN22", "SIRPA", "PTPRC", "RIPK2", "PTPRD", "PTPRF", 
+                         "PTPRU", "PTPRM", "PTPRS", "PTPRT", "IGDCC3", "NECTIN2", "RIPOR2", "RAC2", 
+                         "RAG1", "RAG2", "RARA", "RASGRP1", "RDX", "RELA", "RET", "ROBO1", "ROCK1", 
+                         "S100A8", "S100A9", "SART1", "CCL2", "CCL25", "CCL5", "CX3CL1", "CXCL12", 
+                         "NPTN", "SELE", "SELL", "SELP", "SELPLG", "SEMA4D", "FOXP3", "SPI1", "SFTPD", 
+                         "SHC1", "SHH", "ST3GAL4", "SLC4A1", "SLC4A2", "SLFN1", "SLIT2", "SMARCA4", 
+                         "SMARCB1", "SMARCC1", "SOX12", "SOX13", "SOX2", "SOX4", "SOX9", "SERPINE2", 
+                         "SERPINB8", "SPINT2", "SPN", "SPTA1", "IGSF11", "SRC", "KLHL25", "SRF", "BTLA")
+
+#Focal Adhesion: 
+focal_ad_genes <- c("ITGA9", "PELO", "MYLK", "RAPGEF1", "ACTN1", "BRAF", "RAP1A", "RAF1", 
+                    "ACTB", "ACTG1", "AKT1", "AKT2", "BIRC3", "BIRC2", "ARAF", "RHOA", 
+                    "RHOB", "ARHGAP5", "BAD", "BCL2", "BLK", "CAPN1", "CAV1", "CAV2", 
+                    "CAV3", "CCND1", "CCND2", "CCND3", "CDC42", "CHAD", "COL11A1", 
+                    "COL11A2", "COL2A1", "COL3A1", "COL4A1", "COL4A2", "COL4A4", 
+                    "COL5A1", "COL5A2", "COL6A2", "COL1A1", "COL1A2", "BCAR1", "CRK", 
+                    "CRKL", "DIAPH1", "EGF", "EGFR", "ELK1", "ERBB2", "PTK2", "FGR", 
+                    "VEGFD", "FLT1", "FN1", "FYN", "GRB2", "HCK", "HGF", "IBSP", "IGF1", 
+                    "ILK", "ITGA2", "ITGA2B", "ITGA3", "ITGA4", "ITGA5", "ITGA6", "ITGA7", 
+                    "ITGAE", "ITGAL", "ITGAM", "ITGAV", "ITGAX", "ITGB1", "ITGB2", "ITGB3", 
+                    "ITGB5", "ITGB6", "ITGB7", "JUN", "LAMA1", "LAMA2", "LAMA3", "LAMA4", 
+                    "LAMA5", "LAMB1", "LAMB2", "LAMB3", "LAMC2", "PARVB", "RAC3", "MET", 
+                    "MYL6", "PPP1R12A", "PAK1", "PAK3", "PDGFA", "PDGFB", "PDGFRA", 
+                    "PDGFRB", "PDPK1", "PGF", "PIK3CA", "PIK3CD", "PIK3R1", "PIK3R2", 
+                    "PIP5K1C", "PTEN", "FLNA", "ITGB4", "PXN", "RAC1", "RAC2", "RELN", 
+                    "ROCK1", "ROCK2", "SELENOP", "SHC1", "SHC3", "PTK6", "SOS1", "SPP1", 
+                    "SRC", "SRMS", "ITGA10", "PAK6", "RAP1B", "THBS1", "THBS2", "THBS3", 
+                    "THBS4", "TLN1", "TNC", "TNR", "TXK", "VASP", "VAV1", "VCL", "VEGFA", 
+                    "VEGFB", "VEGFC", "VTN", "VWF", "PAK2", "MAPK4", "LAMC1", "FARP2", 
+                    "ZYX", "MYLK2", "TESK2", "AKT3", "LAMC3", "MAP2K5", "MAPK7", "ITGA8", 
+                    "PAK5", "STYK1", "MAP2K1", "MAP2K2", "MAP2K3", "MAP2K6", "MAPK1", 
+                    "MAPK8", "MAPK9", "MAPK12", "PIK3CG", "ITGA11", "PIK3R5", "ITGB8", 
+                    "TNN", "DOCK1", "ITGAD", "MAPK6", "TNK2", "COL5A3", "PDGFC", "GSK3B", 
+                    "PAK4", "PDGFD", "PIK3CB", "PIK3R4", "TNXB", "TNK1", "COL4A6")
+
+
+#Rank data:
+library(fgsea)
+library(dplyr)
+library(ggplot2)
+kong$disease__ontology_label <- gsub("normal", "Non-IBD",kong$disease__ontology_label)
+kong$disease__ontology_label <- gsub("Crohn's disease", "CD",kong$disease__ontology_label)
+Idents(kong) <- kong$disease__ontology_label
+
+kong_CD_diagnosis <- subset(kong, subset = disease__ontology_label == "CD") 
+kong_Non_IBD_diagnosis <- subset(kong, subset = disease__ontology_label == "Non-IBD")
+
+install.packages('devtools')
+devtools::install_github('immunogenomics/presto')
+library('immunogenomics/presto')
+library(devtools)
+library(ggplot2)
+
+gsea_markers_kong <- FindMarkers(kong, ident.1 = "CD", ident.2 = "Non-IBD")
+head(gsea_markers_kong)
+gsea_markers_kong$gene <- rownames(gsea_markers_kong)
+rownames(gsea_markers_kong) <- NULL
+ranks_kong <- setNames(gsea_markers_kong$avg_log2FC, gsea_markers_kong$gene)
+print(head(ranks_kong))
+
+ranked_genes_kong <- gsea_markers_kong %>%
+  arrange(desc(avg_log2FC))%>%
+  select(gene, avg_log2FC) 
+ranks_kong <- setNames(gsea_markers_kong$avg_log2FC, gsea_markers_kong$gene)
+# Check if the column 'gene' exists and rename it if necessary
+if (" " %in% colnames(gsea_markers_kong)) {
+  gsea_markers_kong <- gsea_markers_kong %>%
+    rename(existing_gene = " ")
+} 
+
+# Add row names as a new column and rename 'avg_log2FC' to 'score'
+gsea_markers_kong <- gsea_markers_kong %>%
+  rownames_to_column("existing_gene") %>%
+  rename(score = avg_log2FC)  # Replace avg_log2FC with the actual column name if different
+
+
+# View the resulting data frame
+head(gsea_markers_kong)
+
+ranked_genes_kong <- gsea_markers_kong %>%
+  arrange(desc(avg_log2FC))
+
+ranked_genes_kong_nonIBDfirst <- gsea_makers_kong_nonIBDfirst %>%
+  arrange(desc(avg_log2FC))
+
+gene_set_list_all <- list(
+  Cycling_TA = cycling_ta_genes,
+  LGR5_SC = LGR5_genes,
+  Revival_SC = revival_genes, 
+  Fetal_Sig = fetal_signature_genes,
+  Paneth_Cells = paneth_genes, 
+  Immature_Goblet = immature_goblet_genes, 
+  Mature_Goblet = mature_goblet_genes, 
+  Enteroendocrine_Cells = entero_genes,
+  Absorptive_Enterocytes = abs_ent_genes, 
+  Tight_Junction = tj_genes,
+  Adherens_Junction =aj_genes, 
+  Desmosome_Junction = desmo_genes,
+  Cell_Cell_Adhesion = cell_cell_ad_genes,
+  Focal_Adhesion = focal_ad_genes)
+
+print(head(ranked_genes_kong))
+gsea_markers_kong$gene <- rownames(gsea_markers_kong)
+rownames(gsea_markers_kong) <- NULL
+gsea_markers_kong <- gsea_markers_kong[, c("gene", colnames(gsea_markers_kong)[1:(ncol(gsea_markers_kong)-1)])]
+head(gsea_markers_kong)
+fgsea_res <- fgseaMultilevel(pathways = gene_set_list_all, stats = ranks_kong, minSize = 10, maxSize = 500, eps = 0)
+
+ranks_kong <- setNames(ranked_genes_kong$avg_log2FC, ranked_genes_kong$gene)
+print(head(ranks_kong))
+ranked_genes_kong_nonIBDfirst$gene <- rownames(ranked_genes_kong_nonIBDfirst)
+rownames(ranked_genes_kong_nonIBDfirst) <- NULL
+ranks_kong <- setNames(ranked_genes_kong$avg_log2FC, ranked_genes_kong$gene)
+
+rownames(ranked_genes_kong) <- NULL
+ranks_kong <- setNames(ranked_genes_kong$avg_log2FC, ranked_genes_kong$gene)
+
+ranks_kong_nonIBD <- setNames(ranked_genes_kong_nonIBDfirst$avg_log2FC, ranked_genes_kong_nonIBDfirst$gene)
+print(head(ranks_kong))
+print(head(ranked_genes_kong))
+ranks_kong <- setNames(ranked_genes_kong$avg_log2FC, ranked_genes_kong$gene)
+print(head(ranks_kong))
+
+ranked_genes_kong$gene <- gsea_markers_kong$gene
+ranks_kong <- setNames(ranked_genes_kong$avg_log2FC, ranked_genes_kong$gene)
+print(head(ranks_kong))
+
+gsea_markers_kong$gene <- rownames(gsea_markers_kong)
+rownames(gsea_markers_kong) <- NULL
+gsea_markers_kong <- gsea_markers_kong[, c("gene", colnames(gsea_markers_kong)[1:(ncol(gsea_markers_kong)-1)])]
+head(gsea_markers_kong)
+ranks_kong <- setNames(ranked_genes_kong$avg_log2FC, ranked_genes_kong$gene)
+print(head(ranks_kong))
+gsea_markers_kong$gene <- rownames(gsea_markers_kong)
+rownames(gsea_markers_kong) <- NULL
+gsea_markers_kong <- gsea_markers_kong[, c("gene", colnames(gsea_markers_kong)[1:(ncol(gsea_markers_kong)-1)])]
+head(gsea_markers_kong)
+ranks_kong <- setNames(ranked_genes_kong$avg_log2FC, ranked_genes_kong$gene)
+print(head(ranks_kong))
+ranked_genes_kong$gene <- rownames(gsea_markers_kong)
+rownames(ranked_genes_kong) <- NULL
+ranks_kong <- setNames(ranked_genes_kong$avg_log2FC, ranked_genes_kong$gene)
+print(head(ranks_kong))
+
+#RUN gsea: 
+fgsea_res <- fgseaMultilevel(pathways = gene_set_list_all, stats = ranks_kong, minSize = 10, maxSize = 500)
+
+fgsea_res <- fgseaMultilevel(pathways = gene_set_list_all, stats = ranks_kong_nonIBD, minSize = 10, maxSize = 500)
+
+fgsea_res %>% 
+  arrange(desc(abs(NES))) %>% 
+  top_n(20, -padj)
+
+num_pathways <- length(gene_set_list_all)
+plotEnrichment(gene_set_list_all[[13]], ranks_kong) +
+  labs(title = fgsea_res$pathway[14
+                                ])
+
+topPathways <- fgsea_res %>% 
+  top_n(20, wt=-padj) %>% 
+  arrange(-NES) %>% 
+  pull(pathway)
+
+ranked_genes_kong$gene <- gsea_markers_kong$gene.1
+rownames(ranked_genes_kong) <- NULL
+ranks_kong <- setNames(ranked_genes_kong$avg_log2FC, ranked_genes_kong$gene)
+print(head(ranks_kong))
+fgsea_res <- fgseaMultilevel(pathways = gene_set_list_all, stats = ranks_kong, minSize = 10, maxSize = 500)
+# Run fgseaMultilevel with eps set to zero for better p-value estimation
+fgsea_res <- fgseaMultilevel(pathways = gene_set_list_all, stats = ranks_kong, minSize = 10, maxSize = 500, eps = 0)
+
+
+#Epithtelial only:
+#Expression in epithelial cells only: 
+epithelial_kong <- subset(kong, Celltype %in% c("LGR5+ crypt-base stem cells", "Tuft cells", "Paneth cells", "Enteroendocrine cells", "Transit-amplifying cells", "Enterocytes", "Goblet cells"))
+kong_CD_diagnosis <- subset(epithelial_kong, subset = disease__ontology_label == "CD") 
+kong_Non_IBD_diagnosis <- subset(epithelial_kong, subset = disease__ontology_label == "Non-IBD")
+gsea_markers_kong_epi <- FindMarkers(epithelial_kong, ident.1 = "CD", ident.2 = "Non-IBD")
+print(gsea_markers_kong_epi)
+gsea_markers_kong_epi$gene <- rownames(gsea_markers_kong_epi)
+ranks_kong_epi <- setNames(gsea_markers_kong_epi$avg_log2FC, gsea_markers_kong_epi$gene)
+print(head(ranks_kong_epi))
+
+fgsea_res_kong_epi <- fgseaMultilevel(pathways = gene_set_list_all, stats = ranks_kong_epi, minSize = 10, maxSize = 500)
+
+fgsea_res_kong_epi %>% 
+  arrange(desc(abs(NES))) %>% 
+  top_n(20, -padj)
+
+plotEnrichment(gene_set_list_all[[1]], ranks_kong_epi) +
+  labs(title = fgsea_res_kong_epi$pathway[13
+                                          
+  ])
+
+gsea_markers_kong_epi_swap <- FindMarkers(epithelial_kong, ident.1 = "Non-IBD", ident.2 = "CD")
+gsea_markers_kong_epi_swap$gene <- rownames(gsea_markers_kong_epi_swap)
+ranks_kong_epi_swap <- setNames(gsea_markers_kong_epi_swap$avg_log2FC, gsea_markers_kong_epi_swap$gene)
+print(head(ranks_kong_epi_swap))          
+# Run fgseaMultilevel with the new ranked list
+fgsea_res_kong_epi_swap <- fgseaMultilevel(
+  pathways = gene_set_list_all,    # Define or load this gene set list
+  stats = ranks_kong_epi_swap,     # New ranked list with swapped conditions
+  minSize = 10,                    # Minimum size of the gene set
+  maxSize = 500,                   # Maximum size of the gene set
+                         # Set eps to zero for better p-value estimation
+)
+
+# Inspect the results
+print(head(fgsea_res_kong_epi_swap))
+
+fgsea_res_kong_epi_swap %>% 
+  arrange(desc(abs(NES))) %>% 
+  top_n(20, -padj)
+
+plotEnrichment(gene_set_list_all[[1]], ranks_kong_epi_swap) +
+  labs(title = fgsea_res_kong_epi_swap$pathway[1
+  ])           
+           
+           
            
